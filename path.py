@@ -14,14 +14,16 @@ a = {}
 
 # Creating class for the environment
 class Environment(tk.Tk, object):
-    def __init__(self):
+    def __init__(self,startPosition,endPosition):
         super(Environment, self).__init__()
         self.action_space = ['up', 'down', 'left', 'right']
         self.n_actions = len(self.action_space)
         self.title('Path Following')
         self.geometry('{0}x{1}'.format(env_height * pixels, env_height * pixels))
+        #baslangic ve bitis konumlari - int 
+        self.startPixel=startPosition
+        self.finishPixel = endPosition
         self.build_environment()
-
         # Dictionaries to draw the final route
         self.d = {}
         self.f = {}
@@ -920,7 +922,7 @@ class Environment(tk.Tk, object):
             outline='#FF1493', fill='#FF1493')
 
         # Final Point - yellow point
-        flag_center = self.o + np.array([pixels * 1, pixels * 1])
+        flag_center = self.o + np.array([pixels * self.finishPixel, pixels * self.finishPixel])
         # Building the flag
         self.flag = self.canvas_widget.create_rectangle(
             flag_center[0] - 10, flag_center[1] - 10,  # Top left corner
