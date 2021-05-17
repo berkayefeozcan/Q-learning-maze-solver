@@ -11,7 +11,7 @@ class Environment(tk.Tk, object):
         self.obstacleLocationsList = []
         self.action_space = ['up', 'down', 'left', 'right']
         self.n_actions = len(self.action_space)
-        self.title('Path Following')
+        self.title('Algoritma Çalışıyor')
         self.geometry('{0}x{1}'.format(env_height * pixels, env_height * pixels))
         #baslangic ve bitis konumlari - int 
         self.startPixel=startPosition
@@ -36,15 +36,15 @@ class Environment(tk.Tk, object):
 
     # Function to build the environment
     def build_environment(self):
-        self.canvas_widget = tk.Canvas(self,  bg='white',
+        self.canvas_widget = tk.Canvas(self,  bg='aquamarine',
                                        height=env_height * pixels,
                                        width=env_width * pixels)
 
         # Uploading an image for background
-        img_background = Image.open("images/bg.png")
-        self.background = ImageTk.PhotoImage(img_background)
+        # img_background = Image.open()
+        # self.background = ImageTk.PhotoImage(img_background)
         # Creating background on the widget
-        self.bg = self.canvas_widget.create_image(0, 0, anchor='nw', image=self.background)
+        self.bg = self.canvas_widget.create_image(0, 0, anchor='nw')
 
         # Creating grid lines
         for column in range(0, env_width * pixels, pixels):
@@ -57,13 +57,13 @@ class Environment(tk.Tk, object):
         # Creating objects of  Obstacles
         # An array to help with building rectangles
         self.o = np.array([pixels / 2, pixels / 2])
-        print('aaas {0}'.format(self.o))
+        # print('aaas {0}'.format(self.o))
         for coordinats in self.obstacleCoordinats:
             obstacle_center = self.o + np.array([pixels*coordinats[0], pixels * coordinats[1]])
             obstacle = self.canvas_widget.create_rectangle(
             obstacle_center[0] - 10, obstacle_center[1] - 10,  # Top left corner
             obstacle_center[0] + 10, obstacle_center[1] + 10,  # Bottom right corner
-            outline='grey', fill='#00BFFF')
+            outline='grey', fill='red')
             location = [self.canvas_widget.coords(obstacle)[0] + 3,
                                  self.canvas_widget.coords(obstacle)[1] + 3,
                                  self.canvas_widget.coords(obstacle)[2] - 3,
@@ -75,8 +75,8 @@ class Environment(tk.Tk, object):
         self.agent = self.canvas_widget.create_oval(
             agentStartCoords[0] - 7, agentStartCoords[1] - 7,
             agentStartCoords[0] + 7, agentStartCoords[1] + 7,
-            outline='#FF1493', fill='#FF1493')
-        print(self.agent)
+            outline='orange', fill='orange')
+        # print(self.agent)
         # Final Point - yellow point
         flag_center = self.o + np.array([pixels * self.finishPixel[0], pixels * self.finishPixel[1]])
         # Building the flag
@@ -105,7 +105,7 @@ class Environment(tk.Tk, object):
         self.agent = self.canvas_widget.create_oval(
             agentStartCoords[0] - 7, agentStartCoords[1] - 7,
             agentStartCoords[0] + 7, agentStartCoords[1] + 7,
-            outline='#FF1493', fill='#FF1493')
+            outline='black', fill='black')
 
         # Clearing the dictionary and the i
         self.d = {}
@@ -152,7 +152,7 @@ class Environment(tk.Tk, object):
 
         # Calculating the reward for the agent
         if next_state == self.coords_flag:
-            time.sleep(0.1)
+            # time.sleep(0.1)
             reward = 5
             done = True
             next_state = 'goal'
@@ -206,8 +206,8 @@ class Environment(tk.Tk, object):
         self.canvas_widget.delete(self.agent)
 
         # Showing the number of steps
-        print('The shortest route:', self.shortest)
-        print('The longest route:', self.longest)
+        # print('The shortest route:', self.shortest)
+        # print('The longest route:', self.longest)
 
         # Creating initial point
         agentStartCoords = self.o + np.array([pixels*self.startPixel[0], pixels * self.startPixel[1]])
@@ -215,16 +215,16 @@ class Environment(tk.Tk, object):
         self.initial_point = self.canvas_widget.create_oval(
             agentStartCoords[0] - 4, agentStartCoords[1] - 4,
             agentStartCoords[0] + 4, agentStartCoords[1] + 4,
-            fill='blue', outline='blue')
+            fill='blue', outline='red')
 
         # Filling the route
         for j in range(len(self.f)):
             # Showing the coordinates of the final route
-            print(self.f[j])
+            # print(self.f[j])
             self.track = self.canvas_widget.create_oval(
                 self.f[j][0] - 3 + self.o[0] - 4, self.f[j][1] - 3 + self.o[1] - 4,
                 self.f[j][0] - 3 + self.o[0] + 4, self.f[j][1] - 3 + self.o[1] + 4,
-                fill='blue', outline='blue')
+                fill='blue', outline='orange')
             # Writing the final route in the global variable a
             a[j] = self.f[j]
 
