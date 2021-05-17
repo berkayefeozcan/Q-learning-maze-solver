@@ -39,9 +39,9 @@ class HomePage(tk.Tk, object):
         obstacleCoordinats = np.random.randint(maxIndex,size=(int(env_height*env_width*randomPixelRatio),2))
         for XY in obstacleCoordinats:
             if (XY[0]==finishPixel[0] and XY[1]==finishPixel[1]) or (XY[0]==startPixel[0] and XY[1]==startPixel[1]):
-                print(obstacleCoordinats)
+                # print(obstacleCoordinats)
                 np.delete(obstacleCoordinats,XY)
-                print(obstacleCoordinats)
+                # print(obstacleCoordinats)
         self.env = Environment(startPixel ,finishPixel,obstacleCoordinats)
         # Calling for the main algorithm
         self.RL = QLearningTable(actions=list(range(self.env.n_actions)))
@@ -67,7 +67,7 @@ class HomePage(tk.Tk, object):
 
             while True:
             # Refreshing environment
-                self.env.render()
+                # self.env.render()
 
             # RL chooses action based on observation
                 action = self.RL.choose_action(str(observation))
