@@ -1,7 +1,7 @@
 # Setting the sizes for the environment
 pixels = 20   # pixels
 env_height = 25  # grid height
-env_width = 35  # grid width
+env_width = 25  # grid width
 maxIndex = min(env_height,env_width) 
 # ratio must be max 1  
 randomPixelRatio = 0.3

@@ -59,6 +59,7 @@ class HomePage(tk.Tk, object):
 
         for episode in range(episodeAmount):
         # Initial Observation
+            print(episode)
             observation = self.env.reset()
         # Updating number of Steps for each Episode
             i = 0
@@ -107,16 +108,23 @@ class HomePage(tk.Tk, object):
         xList = np.random.randint(env_width,size=obstacleAmount)
         yList =  np.random.randint(env_height,size=obstacleAmount)
         obstacleCoordinats = []
-        for i in range(obstacleAmount):
-            if not(xList[i]==finishPixel[0] and yList[i]==finishPixel[1]) and not(xList[i]==startPixel[0] and yList[i]==startPixel[1]):
-                newObstacle = [xList[i] ,yList[i]]
-                obstacleCoordinats.append(newObstacle)
-        #print(obstacleCoordinats)
-        #test icin 
-        for i in range(obstacleAmount):
-            if(xList[i]==finishPixel[0] and yList[i]==finishPixel[1]) or (xList[i]==startPixel[0] and yList[i]==startPixel[1]):
-                print("cakisiyor......")
-        return obstacleCoordinats
+        f = open("./entities/engel.txt", "w")
+        try:
+            for i in range(obstacleAmount):
+                if not(xList[i]==finishPixel[0] and yList[i]==finishPixel[1]) and not(xList[i]==startPixel[0] and yList[i]==startPixel[1]):
+                    newObstacle = [xList[i] ,yList[i]]
+                    obstacleCoordinats.append(newObstacle)
+                    f.write("({}, {}, K)\n".format(xList[i], yList[i]))
+            #print(obstacleCoordinats)
+            #test icin 
+            for i in range(obstacleAmount):
+                if(xList[i]==finishPixel[0] and yList[i]==finishPixel[1]) or (xList[i]==startPixel[0] and yList[i]==startPixel[1]):
+                    print("cakisiyor......")
+        except(e):
+            print("Dosyaya yazarken veyahut random atama yapilirken bir hata olustu!")
+        finally:
+            f.close();
+            return obstacleCoordinats
     
 # sadece bu dosya calistirilmak 
 if __name__ == '__main__':
