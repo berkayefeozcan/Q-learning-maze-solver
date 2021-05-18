@@ -12,7 +12,9 @@ class Environment(tk.Tk, object):
         self.action_space = ['up', 'down', 'left', 'right']
         self.n_actions = len(self.action_space)
         self.title('Algoritma Çalışıyor')
-        self.geometry('{0}x{1}'.format(env_height * pixels, env_height * pixels))
+        width= self.winfo_screenwidth()       
+        height= self.winfo_screenheight()       
+        self.geometry('{0}x{1}'.format(env_width * pixels, env_height * pixels))
         #baslangic ve bitis konumlari - int 
         self.startPixel=startPosition
         self.finishPixel = endPosition
@@ -36,22 +38,23 @@ class Environment(tk.Tk, object):
 
     # Function to build the environment
     def build_environment(self):
-        self.canvas_widget = tk.Canvas(self,  bg='aquamarine',
+        self.canvas_widget = tk.Canvas(self,  bg='white',
                                        height=env_height * pixels,
                                        width=env_width * pixels)
 
         # Uploading an image for background
-        # img_background = Image.open()
-        # self.background = ImageTk.PhotoImage(img_background)
+        img_background = Image.open("images/background.jpg")
+        img_background= img_background.resize((env_width * pixels,env_height * pixels),Image.NEAREST)
+        self.background = ImageTk.PhotoImage(img_background)
         # Creating background on the widget
-        self.bg = self.canvas_widget.create_image(0, 0, anchor='nw')
+        self.bg = self.canvas_widget.create_image(0, 0, anchor='nw',image=self.background)
 
         # Creating grid lines
         for column in range(0, env_width * pixels, pixels):
             x0, y0, x1, y1 = column, 0, column, env_height * pixels
             self.canvas_widget.create_line(x0, y0, x1, y1, fill='grey')
-        for row in range(0, env_height * pixels, pixels):
-            x0, y0, x1, y1 = 0, row, env_height * pixels, row
+        for row in range(0, env_width * pixels, pixels):
+            x0, y0, x1, y1 = 0, row, env_width * pixels, row
             self.canvas_widget.create_line(x0, y0, x1, y1, fill='grey')
 
         # Creating objects of  Obstacles
@@ -63,27 +66,31 @@ class Environment(tk.Tk, object):
             obstacle = self.canvas_widget.create_rectangle(
             obstacle_center[0] - 10, obstacle_center[1] - 10,  # Top left corner
             obstacle_center[0] + 10, obstacle_center[1] + 10,  # Bottom right corner
-            outline='grey', fill='red')
+            outline='#d40000', fill='#d40000')
             location = [self.canvas_widget.coords(obstacle)[0] + 3,
                                  self.canvas_widget.coords(obstacle)[1] + 3,
                                  self.canvas_widget.coords(obstacle)[2] - 3,
                                  self.canvas_widget.coords(obstacle)[3] - 3]
             self.obstacleLocationsList.append(location)
         
-        # Creating an agent of Mobile Robot - red point
+        # ajanin baslangic noktasi
         agentStartCoords = self.o + np.array([pixels*self.startPixel[0], pixels * self.startPixel[1]])
+        self.canvas_widget.create_rectangle(
+            agentStartCoords[0] - 10, agentStartCoords[1] - 10,  # Top left corner
+            agentStartCoords[0] + 10, agentStartCoords[1] + 10,  # Bottom right corner
+            outline='grey', fill='#47b8f5')
         self.agent = self.canvas_widget.create_oval(
             agentStartCoords[0] - 7, agentStartCoords[1] - 7,
             agentStartCoords[0] + 7, agentStartCoords[1] + 7,
-            outline='orange', fill='orange')
+            outline='grey', fill='black')
         # print(self.agent)
-        # Final Point - yellow point
+        # bitis noktasi 
         flag_center = self.o + np.array([pixels * self.finishPixel[0], pixels * self.finishPixel[1]])
         # Building the flag
         self.flag = self.canvas_widget.create_rectangle(
             flag_center[0] - 10, flag_center[1] - 10,  # Top left corner
             flag_center[0] + 10, flag_center[1] + 10,  # Bottom right corner
-            outline='grey', fill='yellow')
+            outline='grey', fill='green')
         # Saving the coordinates of the final point according to the size of agent
         # In order to fit the coordinates of the agent
         self.coords_flag = [self.canvas_widget.coords(self.flag)[0] + 3,

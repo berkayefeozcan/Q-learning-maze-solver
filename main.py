@@ -6,7 +6,7 @@ import time  # Time is needed to slow down the agent and to see how he runs
 from PIL import Image, ImageTk  # For adding images into the canvas widget
 from path import Environment
 from agent import QLearningTable
-from configure import episodeAmount,maxIndex,env_height,env_width,randomPixelRatio,startPageTitle,startPageResolation,XCBOptions,YCBOptions
+from configure import episodeAmount,env_height,env_width,randomPixelRatio,startPageTitle,startPageResolation,XCBOptions,YCBOptions
 
 class HomePage(tk.Tk, object):
     def __init__(self):
@@ -40,13 +40,9 @@ class HomePage(tk.Tk, object):
         self.destroy()
         startPixel = [int(self.startPosition[0].get()),int(self.startPosition[1].get())]
         finishPixel = [int(self.endPosition[0].get()),int(self.endPosition[1].get())]
+        print(finishPixel)
         # random Obstacle coordinat list ex:5x5 [0,3]
-        obstacleCoordinats = np.random.randint(maxIndex,size=(int(env_height*env_width*randomPixelRatio),2))
-        for XY in obstacleCoordinats:
-            if (XY[0]==finishPixel[0] and XY[1]==finishPixel[1]) or (XY[0]==startPixel[0] and XY[1]==startPixel[1]):
-                # print(obstacleCoordinats)
-                np.delete(obstacleCoordinats,XY)
-                # print(obstacleCoordinats)
+        obstacleCoordinats = self.generateRandomObstacleCoordinats(finishPixel,startPixel)
         self.env = Environment(startPixel ,finishPixel,obstacleCoordinats)
         # Calling for the main algorithm
         self.RL = QLearningTable(actions=list(range(self.env.n_actions)))
@@ -104,7 +100,24 @@ class HomePage(tk.Tk, object):
 
     # Plotting the results
         self.RL.plot_results(steps, all_costs)
+    
+    def generateRandomObstacleCoordinats(self,finishPixel,startPixel):
 
+        obstacleAmount = int(env_height*env_width*randomPixelRatio) 
+        xList = np.random.randint(env_width,size=obstacleAmount)
+        yList =  np.random.randint(env_height,size=obstacleAmount)
+        obstacleCoordinats = []
+        for i in range(obstacleAmount):
+            if not(xList[i]==finishPixel[0] and yList[i]==finishPixel[1]) and not(xList[i]==startPixel[0] and yList[i]==startPixel[1]):
+                newObstacle = [xList[i] ,yList[i]]
+                obstacleCoordinats.append(newObstacle)
+        #print(obstacleCoordinats)
+        #test icin 
+        for i in range(obstacleAmount):
+            if(xList[i]==finishPixel[0] and yList[i]==finishPixel[1]) or (xList[i]==startPixel[0] and yList[i]==startPixel[1]):
+                print("cakisiyor......")
+        return obstacleCoordinats
+    
 # sadece bu dosya calistirilmak 
 if __name__ == '__main__':
     env = HomePage()
