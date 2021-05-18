@@ -189,12 +189,12 @@ class Environment(tk.Tk, object):
         elif next_state in self.obstacleLocationsList:
 
             reward = -5
-            done = True
+            done = False
             next_state = 'obstacle'
 
             # Clearing the dictionary and the i
-            self.d = {}
-            self.i = 0
+            # self.d = {}
+            # self.i = 0
 
         else:
             reward = 3
