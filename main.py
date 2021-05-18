@@ -6,7 +6,8 @@ import time  # Time is needed to slow down the agent and to see how he runs
 from PIL import Image, ImageTk  # For adding images into the canvas widget
 from path import Environment
 from agent import QLearningTable
-from configure import episodeAmount,maxIndex,env_height,env_width,randomPixelRatio,startPageTitle,startPageResolation,startPositionCBOptions,endPostionCBOptions
+from configure import episodeAmount,maxIndex,env_height,env_width,randomPixelRatio,startPageTitle,startPageResolation,XCBOptions,YCBOptions
+
 class HomePage(tk.Tk, object):
     def __init__(self):
         super(HomePage, self).__init__()       
@@ -22,15 +23,19 @@ class HomePage(tk.Tk, object):
         self.startButton.place(x = 190,y = 130)    
         self.startPositionLabel= tk.Label(self,text = "Başlangıç konumu :").place(x = 40,y = 60)
         self.endPositionLabel = tk.Label(self,text="Bitiş Konumu          :").place(x=40,y=100)
-        self.startPositionComboBoxX = ttk.Combobox(self,values=startPositionCBOptions,textvariable=self.startPosition[0],width=5)
+        self.startPositionComboBoxX = ttk.Combobox(self,values=XCBOptions,textvariable=self.startPosition[0],width=5)
         self.startPositionComboBoxX.place(x=150,y=60)
-        self.startPositionComboBoxY = ttk.Combobox(self,values=startPositionCBOptions,textvariable=self.startPosition[1],width=5)
+        self.startPositionComboBoxX.current(0)
+        self.startPositionComboBoxY = ttk.Combobox(self,values=YCBOptions,textvariable=self.startPosition[1],width=5)
         self.startPositionComboBoxY.place(x=210,y=60)
-        self.endPositionComboBoxX = ttk.Combobox(self,values=endPostionCBOptions,textvariable=self.endPosition[0],width=5)
+        self.startPositionComboBoxY.current(0)
+        # hedef konum labirentin sonuna yaikin olmasi acisindan degerler ters donduruluyor.
+        self.endPositionComboBoxX = ttk.Combobox(self,values=XCBOptions[::-1],textvariable=self.endPosition[0],width=5)
         self.endPositionComboBoxX.place(x=150,y=100)
-        self.endPositionComboBoxY = ttk.Combobox(self,values=endPostionCBOptions,textvariable=self.endPosition[1],width=5)
+        self.endPositionComboBoxX.current(0)
+        self.endPositionComboBoxY = ttk.Combobox(self,values=YCBOptions[::-1],textvariable=self.endPosition[1],width=5)
         self.endPositionComboBoxY.place(x=210,y=100)
-
+        self.endPositionComboBoxY.current(0)
     def startQLearning(self):
         self.destroy()
         startPixel = [int(self.startPosition[0].get()),int(self.startPosition[1].get())]

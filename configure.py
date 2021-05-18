@@ -11,5 +11,5 @@ a = {}
 episodeAmount =1000
 startPageTitle ='Home Page'
 startPageResolation="450x300" 
-startPositionCBOptions=(0,3,5,6,7,8,9,15)
-endPostionCBOptions = (0,3,5,6,7,8,9,24)
+XCBOptions=tuple(range(env_width))
+YCBOptions = tuple(range(env_height))
