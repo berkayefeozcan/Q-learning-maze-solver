@@ -40,42 +40,42 @@ class Environment:
 
         next_state=()
         isterm=0
-        #yukari
+        #up
         if action==0:
             next_state=(row,max(col-1,0))
             if (row,col-1) in self.ll_block:
                 next_state=(row,col)
-        # sol
+        # left
         elif action==1:
             next_state=(max(row-1,0),col)
             if (row-1,col) in self.ll_block:
                 next_state=(row,col)
-        # asagi 
+        # down 
         elif action==2:
             next_state=(row,min(self.num_col-1,col+1))
             if (row,col+1) in self.ll_block:
                 next_state=(row,col)
-        # sag
+        # right
         elif action==3:
             next_state=(min(row+1,self.num_row-1),col)
             if (row+1,col) in self.ll_block:
                 next_state=(row,col)
-        # yukari sag 
+        # up right cross
         elif action==4:
             next_state=(min(row+1,self.num_row-1),max(col-1,0))
             if next_state in self.ll_block:
                 next_state=(row,col)
-        #yukari sol
+        #up left cross
         elif action==5:
             next_state=(max(row-1,0),max(col-1,0))
             if next_state in self.ll_block:
                 next_state=(row,col)
-        #asagi sag
+        #down right cross
         elif action==6:
             next_state=(min(row+1,self.num_row-1),min(self.num_col-1,col+1))
             if next_state in self.ll_block:
                 next_state=(row,col)
-        #asagi sol 
+        #down left cross 
         else :
             next_state=(max(row-1,0),min(self.num_col-1,col+1))
             if next_state in self.ll_block:
@@ -96,7 +96,7 @@ class Environment:
         xList = np.random.randint(self.num_row,size=obstacleAmount)
         yList =  np.random.randint(self.num_col,size=obstacleAmount)
         obstacleCoordinats = []
-        f = open("./entities/engel.txt", "w")
+        f = open("./entities/obstacle.txt", "w")
         try:
             for i in range(obstacleAmount):
                 newObstacle = (xList[i] ,yList[i])
@@ -113,25 +113,25 @@ class Environment:
                 for col in range(self.num_col):
                     i = (row,col)
                     if( i in obstacleCoordinats):
-                        f.write("({}, {}, E)\n".format(row, col))
+                        f.write("({}, {}, O)\n".format(row, col))
                     elif(i == startPixel):
-                        f.write("({}, {}, B)\n".format(row, col))
+                        f.write("({}, {}, S)\n".format(row, col))
                     elif(i==finishPixel):
-                        f.write("({}, {}, H)\n".format(row, col))
+                        f.write("({}, {}, T)\n".format(row, col))
                     else:
-                        f.write("({}, {}, Y)\n".format(row, col))
+                        f.write("({}, {}, R)\n".format(row, col))
             #print(obstacleCoordinats)
-            #test icin 
-            for i in range(obstacleAmount):
-                if newObstacle == startPixel or newObstacle == finishPixel:
-                    print("cakisiyor......")
+            #for testing 
+            # for i in range(obstacleAmount):
+            #     if newObstacle == startPixel or newObstacle == finishPixel:
+            #         print("cakisiyor......")
         except :
             e = sys.exc_info()[0]
             print(e)
             print("Dosyaya yazarken veyahut random atama yapilirken bir hata olustu!")
         finally:
             f.close();
-            print("matris engel.txt teye yazildi")
+            print("matris obstacle.txt teye yazildi")
             return obstacleCoordinats
 # if __name__ == "__main__":
 #     envrn=Environment(sys.argv[1])

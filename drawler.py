@@ -11,11 +11,11 @@ class Drawler(tk.Tk, object):
         self.obstacleLocationsList = []
         self.action_space = ['up', 'down', 'left', 'right']
         self.n_actions = len(self.action_space)
-        self.title('En Kisa Yol')
+        self.title('Shortest Path')
         width= self.winfo_screenwidth()       
         height= self.winfo_screenheight()       
         self.geometry('{0}x{1}'.format(env_width * pixels, env_height * pixels))
-        #baslangic ve bitis konumlari - int 
+        # start and end point 
         self.startPixel=startPosition
         self.finishPixel = endPosition
         self.obstacleCoordinats= obstacleCoordinats
@@ -60,7 +60,7 @@ class Drawler(tk.Tk, object):
                                  self.canvas_widget.coords(obstacle)[3] - 3]
             self.obstacleLocationsList.append(location)
         
-        # ajanin baslangic noktasi
+        # agent starting point 
         agentStartCoords = self.o + np.array([pixels*self.startPixel[0], pixels * self.startPixel[1]])
         self.canvas_widget.create_rectangle(
             agentStartCoords[0] - 10, agentStartCoords[1] - 10,  
@@ -71,7 +71,7 @@ class Drawler(tk.Tk, object):
             agentStartCoords[0] + 7, agentStartCoords[1] + 7,
             outline='grey', fill='black')
         # print(self.agent)
-        # bitis noktasi 
+        # end point 
         flag_center = self.o + np.array([pixels * self.finishPixel[0], pixels * self.finishPixel[1]])
       
         self.flag = self.canvas_widget.create_rectangle(

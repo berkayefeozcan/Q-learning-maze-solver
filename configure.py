@@ -9,6 +9,9 @@ randomPixelRatio = 0.3
 a = {}
 # episodeAmount 
 episodeAmount =1000
+# learning rate 
+learn_rate=0.9
+epsilon=0.05
 startPageTitle ='Home Page'
 startPageResolation="450x300" 
 XCBOptions=tuple(range(env_width))

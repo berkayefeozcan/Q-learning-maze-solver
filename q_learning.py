@@ -78,7 +78,7 @@ class Qlearning:
             total+=curr_episode_len
             d = {}
             i = 0  
-            print("episode {} adim sayisi {}".format(episode+1,curr_episode_len))
+            print("episode {} step sayisi {}".format(episode+1,curr_episode_len))
         #print(shorthestPath)
         #print("Average length per episode {}".format(float(total/episodeAmount)))
         return shorthestPath,steps,all_costs
